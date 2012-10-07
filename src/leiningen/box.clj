@@ -1,9 +1,6 @@
 (ns leiningen.box
   (:use [leiningen.help :only (help-for)]
-        [leiningen.box.start :only (start)]
-        [leiningen.box.stop :only (stop)]
-        [leiningen.box.status :only (status)]
-        [leiningen.box.ssh :only (ssh)]))
+        [leiningen.box.commands :refer :all]))
 
 (defn box
   "Manage the project's virtual machine."
