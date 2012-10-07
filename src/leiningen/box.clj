@@ -12,5 +12,6 @@
      (case subtask
        "start"  (apply start project args)
        "stop"   (apply stop project args)
+       "resume" (apply resume project args)
        "status" (apply status project args)
        "ssh"    (apply ssh project args))))

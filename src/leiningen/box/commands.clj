@@ -1,5 +1,5 @@
 (ns leiningen.box.commands
-  (:require [leiningen.box.providers.virtualbox :refer (vm-info)]))
+  (:require [leiningen.box.providers.virtualbox :refer (vm-info vm-start)]))
 
 (defn start
   "Start the virtual machine."
@@ -10,6 +10,11 @@
   "Stop the virtual machine."
   [project]
   (println "Stopping virtual machine..."))
+
+(defn resume
+  "Resume the virtual machine."
+  [project]
+  (println (vm-start)))
 
 (defn status
   "Get the virtual machine's status."
