@@ -20,3 +20,8 @@
   (let [result (sh "VBoxManage" "startvm" (store/active-default) "--type" "headless")]
     (or (= (:exit result) 0)
         (re-find #"VM \".+?\" has been successfully started" (:out result)))))
+
+(defn vm-stop []
+  (-> (sh "VBoxManage" "controlvm" (store/active-default) "savestate")
+      :exit
+      (= 0)))
