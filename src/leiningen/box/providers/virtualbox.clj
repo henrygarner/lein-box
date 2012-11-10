@@ -63,8 +63,11 @@
         args (mapcat #(["--natpf1" "delete" %]) port-names)]
     (apply sh "VBoxManage" "modifyvm" (store/active-default) args)))
 
-(defn set-name-cmd [uuid name]
-  ["VBoxManage" "modifyvm" uuid  "--name" name])
+(defn set-name-cmd [uuid value]
+  ["VBoxManage" "modifyvm" uuid  "--name" value])
+
+(defn set-mac-cmd [uuid value]
+  ["VBoxManage" "modifyvm" uuid  "--macaddress1" value])
 
 (defn forward-ports [ports]
   (comment "VBoxManage modifyvm uuid --natpf1", "ssh,tcp,,2222,,22"))

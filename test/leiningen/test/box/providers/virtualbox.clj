@@ -21,3 +21,9 @@
         name "project_134789154"
         cmd  (set-name-cmd uuid name)]
     (is (= cmd ["VBoxManage" "modifyvm" uuid "--name" name]))))
+
+(deftest set-mac
+  (let [uuid "c334df61-aafe-4d66-8ab2-94942738ca65"
+        mac "0e:b1:c2:f1:94:ee"
+        cmd (set-mac-cmd uuid mac)]
+    (is (= cmd ["VBoxManage" "modifyvm" uuid "--macaddress1" mac]))))
