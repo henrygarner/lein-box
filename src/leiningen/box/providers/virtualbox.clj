@@ -7,7 +7,7 @@
   (let [[key value] (s/split line #"=" 2)]
     [key (s/replace value #"^\"|\"$" "")]))
 
-(defn- info->map [input]
+(defn info->map [input]
   (->> (s/split-lines input)
        (map line->pair)
        (into {})))
