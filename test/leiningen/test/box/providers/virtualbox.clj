@@ -27,3 +27,7 @@
         mac "0e:b1:c2:f1:94:ee"
         cmd (set-mac-cmd uuid mac)]
     (is (= cmd ["VBoxManage" "modifyvm" uuid "--macaddress1" mac]))))
+
+(deftest list-machines
+  (let [cmd (list-vms-cmd)]
+    (is (= cmd ["VBoxManage" "list" "vms"]))))

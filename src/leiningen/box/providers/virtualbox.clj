@@ -20,7 +20,7 @@
   ([] (info->map (:out (sh "VBoxManage" "showvminfo" (store/active-default) "--machinereadable"))))
   ([key] (-> (vm-info) (get key))))
 
-(defn vm-start []
+(defn vm-start [project]
   (let [result (sh "VBoxManage" "startvm" (store/active-default) "--type" "headless")]
     (or (= (:exit result) 0)
         (re-find #"VM \".+?\" has been successfully started" (:out result)))))
@@ -35,7 +35,7 @@
 
 (defn vm-directory []
   ; TODO: dynamically determine this directory
-  "~/.vagrant.d/boxes/")
+  "/Users/henry/.vagrant.d/boxes/")
 
 (defn vm-import [name]
   ; TODO: return the machine id so that can be named
@@ -68,6 +68,12 @@
 
 (defn set-mac-cmd [uuid value]
   ["VBoxManage" "modifyvm" uuid  "--macaddress1" value])
+
+(defn default-name []
+  (str (System/getProperty "user.dir") "-" (rand-int 1000000)))
+
+(defn list-vms-cmd []
+  ["VBoxManage" "list" "vms"])
 
 (defn forward-ports [ports]
   (comment "VBoxManage modifyvm uuid --natpf1", "ssh,tcp,,2222,,22"))
