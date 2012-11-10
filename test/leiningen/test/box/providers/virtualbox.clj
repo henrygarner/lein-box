@@ -10,3 +10,8 @@
                  info->map
                  (get "name"))]
     (is (= name "paduka_1347891541"))))
+
+(deftest imported-uuid
+  (let [uuid (-> (slurp-resource "test/list-vms")
+                 (machine-uuid "lucid64"))]
+    (is (= uuid "c334df61-aafe-4d66-8ab2-94942738ca65"))))

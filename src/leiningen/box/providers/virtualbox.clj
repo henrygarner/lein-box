@@ -1,7 +1,8 @@
 (ns leiningen.box.providers.virtualbox
   (:require [leiningen.box.datastore :as store]
             [clj-shell.shell :refer (sh)]
-            [clojure.string :as s]))
+            [clojure.string :as s]
+            [clojure.algo.monads :refer :all]))
 
 (defn- line->pair [line]
   (let [[key value] (s/split line #"=" 2)]
@@ -11,6 +12,9 @@
   (->> (s/split-lines input)
        (map line->pair)
        (into {})))
+
+(defn vm-show-info []
+  ["VBoxManage" "showvminfo" "602c73f1-002e-48b6-a73a-7e5fc0d3d7b1" "--machinereadable"])
 
 (defn vm-info
   ([] (info->map (:out (sh "VBoxManage" "showvminfo" (store/active-default) "--machinereadable"))))
@@ -31,13 +35,23 @@
 
 (defn vm-directory []
   ; TODO: dynamically determine this directory
-  "/Users/henry/.vagrant.d/boxes/")
+  "~/.vagrant.d/boxes/")
 
 (defn vm-import [name]
   ; TODO: return the machine id so that can be named
   ; Suggested VM name (.+?)
   ; name {(.+?)}
   (sh "VBoxManage" "import" (str (vm-directory) name "/box.ovf")))
+
+(defn vm-import-cmd [name]
+  ["VBoxManage" "import" (str (vm-directory) name "/box.ovf")])
+
+(defn vm-import-resp [input]
+  (comment "Check last line reads: Successfully imported the appliance."))
+
+(defn machine-uuid [input name]
+  (let [re (re-pattern (str "\"" name "\" \\{(.+?)\\}"))]
+    (second (re-find re input))))
 
 (defn vm-forwarded-ports []
   (let [forwarding (filter #(.startsWith (first %) "Forwarding") (vm-info))]
