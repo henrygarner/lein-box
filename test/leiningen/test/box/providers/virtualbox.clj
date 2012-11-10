@@ -15,3 +15,9 @@
   (let [uuid (-> (slurp-resource "test/list-vms")
                  (machine-uuid "lucid64"))]
     (is (= uuid "c334df61-aafe-4d66-8ab2-94942738ca65"))))
+
+(deftest set-name
+  (let [uuid "c334df61-aafe-4d66-8ab2-94942738ca65"
+        name "project_134789154"
+        cmd  (set-name-cmd uuid name)]
+    (is (= cmd ["VBoxManage" "modifyvm" uuid "--name" name]))))
