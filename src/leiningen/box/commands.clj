@@ -23,3 +23,15 @@
               ]
           (println "Created " e))
         )))
+
+(defn destroy
+  "Destroy the virtual machine."
+  [project]
+  (let [datastore ".vagrant"
+        uuid (get-uuid datastore)]
+    (if uuid
+      (let [a (destroy-vm-cmd uuid)
+            b (:out (apply sh a))
+            c (set-uuid datastore nil)]
+        (println "Destroyed " uuid))
+      (println "No machine to destroy"))))

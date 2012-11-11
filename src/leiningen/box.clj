@@ -10,4 +10,5 @@
      (println (help-for project "box")))
   ([project subtask & args]
      (case subtask
-       "start"   (apply start project args))))
+       "start"   (apply start project args)
+       "destroy" (apply destroy project args))))

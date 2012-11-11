@@ -44,3 +44,6 @@
 (defn get-uuid [datastore]
   (try (get-in (parse-string (slurp datastore)) ["active" "default"])
        (catch java.io.FileNotFoundException e nil)))
+
+(defn destroy-vm-cmd [uuid]
+  ["VBoxManage" "unregistervm" uuid "--delete"])

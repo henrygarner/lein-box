@@ -31,3 +31,8 @@
 (deftest list-machines
   (let [cmd (list-vms-cmd)]
     (is (= cmd ["VBoxManage" "list" "vms"]))))
+
+(deftest test-destroy-vm-cmd
+  (let [uuid "c334df61-aafe-4d66-8ab2-94942738ca65"
+        cmd (destroy-vm-cmd uuid)]
+    (is (= cmd ["VBoxManage" "unregistervm" uuid "--delete"]))))
