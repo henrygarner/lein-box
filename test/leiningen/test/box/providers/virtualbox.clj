@@ -11,6 +11,12 @@
                  (get "name"))]
     (is (= name "paduka_1347891541"))))
 
+(deftest test-forwarded-ports
+  (let [ports (-> (slurp-resource "test/showvminfo")
+                  info->map
+                  forwarded-ports)]
+    (is (= ports [["ssh" "2222" "22"] ["2to-2to" "3000" "3000"]]))))
+
 (deftest imported-uuid
   (let [uuid (-> (slurp-resource "test/list-vms")
                  (machine-uuid "lucid64"))]
