@@ -7,17 +7,22 @@
   [project]
   (let [box (-> project :box :name)
         name (project :name)
-        a (vm-import-cmd box)
-        b (:out (apply sh a))
-        c (list-vms-cmd)
-        d (:out (apply sh c))
-        e (machine-uuid d box)
-        f (persist-uuid-cmd e)
-        g (:out (apply sh f))
-        h (set-name-cmd e name)
-        i (:out (apply sh h))
+        datastore ".vagrant"
+        uuid (get-uuid datastore)
         ]
-    (println "Done")))
+    (if uuid (println "Found " uuid)
+        (let [
+              a (vm-import-cmd box)
+              b (:out (apply sh a))
+              c (list-vms-cmd)
+              d (:out (apply sh c))
+              e (machine-uuid d box)
+              f (set-uuid datastore e)
+              g (set-name-cmd e name)
+              h (:out (apply sh g))
+              ]
+          (println "Created " e))
+        )))
 
 (defn stop
   "Stop the virtual machine."

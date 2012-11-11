@@ -81,6 +81,13 @@
         escape (s/replace json "\"" "\\\"")]
     ["bash" "-c" (str "echo " escape " > .vagrant")]))
 
+(defn set-uuid [datastore uuid]
+  (spit datastore (generate-string {"active" {"default" uuid}})))
+
+(defn get-uuid [datastore]
+  (try (get-in (parse-string (slurp datastore)) ["active" "default"])
+       (catch java.io.FileNotFoundException e nil)))
+
 (defn forward-ports [ports]
   (comment "VBoxManage modifyvm uuid --natpf1", "ssh,tcp,,2222,,22"))
 
