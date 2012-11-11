@@ -31,3 +31,7 @@
 (deftest list-machines
   (let [cmd (list-vms-cmd)]
     (is (= cmd ["VBoxManage" "list" "vms"]))))
+
+(deftest persist-uuid
+  (let [cmd (persist-uuid-cmd "c334df61-aafe-4d66-8ab2-94942738ca65")]
+    (is (= cmd ["bash" "-c" "echo {\\\"active\\\":{\\\"default\\\":\\\"c334df61-aafe-4d66-8ab2-94942738ca65\\\"}} > .vagrant"]))))

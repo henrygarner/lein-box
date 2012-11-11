@@ -9,14 +9,13 @@
         name (project :name)
         a (vm-import-cmd box)
         b (:out (apply sh a))
-        c true ; TODO determine successful import
-        d (list-vms-cmd)
-        e (:out (apply sh d))
-        f (machine-uuid e box)
-        g true ; TODO determine successful uuid
-        h (set-name-cmd f name)
+        c (list-vms-cmd)
+        d (:out (apply sh c))
+        e (machine-uuid d box)
+        f (persist-uuid-cmd e)
+        g (:out (apply sh f))
+        h (set-name-cmd e name)
         i (:out (apply sh h))
-        j true ; TODO determine successful set-name
         ]
     (println "Done")))
 

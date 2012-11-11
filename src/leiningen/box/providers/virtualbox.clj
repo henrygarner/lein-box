@@ -2,6 +2,7 @@
   (:require [leiningen.box.datastore :as store]
             [clj-shell.shell :refer (sh)]
             [clojure.string :as s]
+            [cheshire.core :refer :all]
             [clojure.algo.monads :refer :all]))
 
 (defn- line->pair [line]
@@ -74,6 +75,11 @@
 
 (defn list-vms-cmd []
   ["VBoxManage" "list" "vms"])
+
+(defn persist-uuid-cmd [uuid]
+  (let [json (generate-string {"active" {"default" uuid}})
+        escape (s/replace json "\"" "\\\"")]
+    ["bash" "-c" (str "echo " escape " > .vagrant")]))
 
 (defn forward-ports [ports]
   (comment "VBoxManage modifyvm uuid --natpf1", "ssh,tcp,,2222,,22"))

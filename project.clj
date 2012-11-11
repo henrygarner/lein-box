@@ -6,5 +6,5 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/algo.monads "0.1.0"]
                  [clj-shell "0.2.0"]
-                 [cheshire "4.0.3"]]
+                 [cheshire "4.0.4"]]
   :eval-in-leiningen true)
