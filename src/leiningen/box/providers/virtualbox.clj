@@ -47,3 +47,9 @@
 
 (defn destroy-vm-cmd [uuid]
   ["VBoxManage" "unregistervm" uuid "--delete"])
+
+(defn get-guestaddition-version-cmd [uuid]
+  ["VBoxManage" "guestproperty" "get" uuid "/VirtualBox/GuestAdd/Version"])
+
+(defn get-guestaddition-version [input]
+  (second (re-find #"Value: (.+)" input)))

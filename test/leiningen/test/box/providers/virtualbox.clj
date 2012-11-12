@@ -36,3 +36,13 @@
   (let [uuid "c334df61-aafe-4d66-8ab2-94942738ca65"
         cmd (destroy-vm-cmd uuid)]
     (is (= cmd ["VBoxManage" "unregistervm" uuid "--delete"]))))
+
+(deftest test-get-guestaddition-version-cmd
+  (let [uuid "c334df61-aafe-4d66-8ab2-94942738ca65"
+        cmd (get-guestaddition-version-cmd uuid)]
+    (is (= cmd ["VBoxManage" "guestproperty" "get" uuid "/VirtualBox/GuestAdd/Version"]))))
+
+(deftest test-get-guestaddition-version
+  (let [version (-> (slurp-resource "test/get-guestaddition-version")
+                    (get-guestaddition-version))]
+    (is (= version "4.2.0"))))
