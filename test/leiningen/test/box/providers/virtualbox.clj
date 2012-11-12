@@ -46,3 +46,13 @@
   (let [version (-> (slurp-resource "test/get-guestaddition-version")
                     (get-guestaddition-version))]
     (is (= version "4.2.0"))))
+
+(deftest test-read-vm-state
+  (let [state (-> (slurp-resource "test/showvminfo")
+                  (read-vm-state))]
+    (is (= state "running"))))
+
+(deftest test-read-vm-state-inaccessible
+  (let [state (-> "name=\"<inaccessible>\""
+                  (read-vm-state))]
+    (is (= state "inaccessible"))))

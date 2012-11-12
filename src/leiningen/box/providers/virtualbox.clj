@@ -53,3 +53,11 @@
 
 (defn get-guestaddition-version [input]
   (second (re-find #"Value: (.+)" input)))
+
+(defn read-vm-state [input]
+  (let [attrs (info->map input)]
+    (if (-> attrs
+            (get "name")
+            (= "<inaccessible>"))
+     "inaccessible"
+     (get attrs "VMState"))))
