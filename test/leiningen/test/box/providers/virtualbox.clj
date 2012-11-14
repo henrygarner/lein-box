@@ -13,9 +13,9 @@
 
 (deftest test-forwarded-ports
   (let [ports (-> (slurp-resource "test/showvminfo")
-                  info->map
                   forwarded-ports)]
-    (is (= ports [["ssh" "2222" "22"] ["2to-2to" "3000" "3000"]]))))
+    (is (= ports
+           [["1" ["2to-2to" "3000" "300"] ["ssh" "2222" "2"]] ["2" ["Sinatra" "4567" "456"]] ["3"] ["4"] ["5"] ["6"] ["7"] ["8"]]))))
 
 (deftest imported-uuid
   (let [uuid (-> (slurp-resource "test/list-vms")

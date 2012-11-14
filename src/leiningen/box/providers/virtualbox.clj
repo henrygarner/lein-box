@@ -29,8 +29,10 @@
     (second (re-find re input))))
 
 (defn forwarded-ports [input]
-  (let [forwarding (filter #(.startsWith (first %) "Forwarding") input)]
-    (map #(map (s/split (last %) #",") [0 3 5]) forwarding)))
+  (let [matches (drop 1 (s/split input #"nic"))
+        nic (partial re-find #"^\d")
+        ports (fn [x] (map (partial drop 1) (re-seq #"Forwarding\(\d\)=\"([^,]+),[^,].+?(\d+).+?(\d+).+?\"" x)))]
+    (map #(-> % ports (conj (nic %))) matches)))
 
 (defn set-name-cmd [uuid value]
   ["VBoxManage" "modifyvm" uuid  "--name" value])
